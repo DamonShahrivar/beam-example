@@ -1,0 +1,12 @@
+substitutions:
+  _REPOSITORY: cicd-sample-repo
+steps:
+- name: 'gcr.io/k8s-skaffold/skaffold'
+  entrypoint: 'sh'
+  args:
+  - -xe
+  - -c
+  - |
+    # Build and push images
+    skaffold build --default-repo=$LOCATION-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY} \
+                   --push=true

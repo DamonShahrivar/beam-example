@@ -1,0 +1,25 @@
+apiVersion: skaffold/v2beta27
+kind: Config
+metadata:
+  name: cloud-devops-sample
+build:
+  tagPolicy:
+    gitCommit: {}
+  artifacts:
+  - image: nodejs-guestbook-backend
+    context: src/backend
+    docker:
+      dockerfile: Dockerfile
+  - image: nodejs-guestbook-frontend
+    context: src/frontend
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - src/backend/kubernetes-manifests/guestbook-backend.deployment.yaml
+    - src/backend/kubernetes-manifests/guestbook-backend.service.yaml
+    - src/backend/kubernetes-manifests/mongo.deployment.yaml
+    - src/backend/kubernetes-manifests/mongo.service.yaml
+    - src/frontend/kubernetes-manifests/guestbook-frontend.deployment.yaml
+    - src/frontend/kubernetes-manifests/guestbook-frontend.service.yaml
